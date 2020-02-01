@@ -1,0 +1,32 @@
+apiVersion: skaffold/v2alpha3
+kind: Config
+metadata:
+  name: grpc-demo
+build:
+  tagPolicy:
+    gitCommit: {}
+  artifacts:
+  - image: grpc-demo-server
+    context: ./server/
+  - image: grpc-demo-client
+    context: ./client/
+profiles:
+- name: local
+  # build:
+  #   artifacts:
+  #     - image: grpc-demo-server
+  #       context: ./server/
+  #       sync:
+  #         infer:
+  #         - 'app/**'
+  #     - image: grpc-demo-client
+  #       context: ./client/
+  #       sync:
+  #         infer:
+  #         - 'app/**'
+  deploy:
+    kubeContext: docker-desktop
+    kustomize:
+      paths: 
+        - ./server/manifests/overlays/local
+        - ./client/manifests/overlays/local
