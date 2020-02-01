@@ -1,10 +1,10 @@
 {
-  "name": "geo-svc",
+  "name": "client-svc",
   "version": "1.0.0",
   "private": true,
-  "description": "Service to return distance between two services",
+  "description": "Client service to consume grps services",
   "scripts": {
-    "start": "node server.js"
+    "start": "node client.js"
   },
   "repository": {
     "type": "git",
@@ -12,8 +12,10 @@
   },
   "dependencies": {
     "@grpc/proto-loader": "^0.5.3",
-    "geolib": "^3.2.1",
+    "express": "^4.17.1",
+    "express-pino-logger": "^4.0.0",
     "grpc": "^1.24.2",
+    "grpc-promise": "^1.4.0",
     "pino": "^5.16.0"
   },
   "license": "Apache-2.0"

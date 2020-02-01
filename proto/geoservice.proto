@@ -1,6 +1,6 @@
 syntax = "proto3";
 
-package geo;
+package geoservice;
 
 service GeoService {
 	rpc DistanceBetween (Points) returns (Distance) {}

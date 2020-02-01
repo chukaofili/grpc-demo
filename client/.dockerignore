@@ -1,0 +1,15 @@
+.vscode
+**/*secret.env
+**/*service-account.json
+src/.editorconfig
+src/.env.example
+src/.eslintrc
+src/.gitignore
+src/.jsbeautifyrc
+src/.yarn-error.log
+src/.yo-rc.json
+src/client
+src/node_modules
+src/package-lock.json
+src/test
+src/yarn-cache.tgz

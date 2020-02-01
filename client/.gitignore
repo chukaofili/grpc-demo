@@ -1,0 +1,33 @@
+# macOS
+.DS_Store
+api/yarn-cache.tgz
+*secret.env
+docs
+yarn-cache.tgz
+
+# IDE Specific
+nbproject
+.~lock.*
+.buildpath
+.idea
+.project
+.settings
+.vscode
+composer.lock
+*.sublime-workspace
+*.swp
+*.swo
+
+# Project Specific
+coverage
+node_modules
+*.log
+*.tgz
+
+# Config
+/config/.work
+db.json
+source-context.json
+
+# Containerized Postgres
+docker-compose/data/
