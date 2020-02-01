@@ -1,7 +1,7 @@
 # macOS
 .DS_Store
 api/yarn-cache.tgz
-*.env
+*secret.env
 docs
 yarn-cache.tgz
 
