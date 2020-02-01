@@ -4,7 +4,7 @@
   "private": true,
   "description": "Client service to consume grps services",
   "scripts": {
-    "start": "node client.js"
+    "start": "node index.js"
   },
   "repository": {
     "type": "git",

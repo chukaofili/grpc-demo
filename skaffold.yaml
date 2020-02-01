@@ -12,18 +12,18 @@ build:
     context: ./client/
 profiles:
 - name: local
-  # build:
-  #   artifacts:
-  #     - image: grpc-demo-server
-  #       context: ./server/
-  #       sync:
-  #         infer:
-  #         - 'app/**'
-  #     - image: grpc-demo-client
-  #       context: ./client/
-  #       sync:
-  #         infer:
-  #         - 'app/**'
+  build:
+    artifacts:
+      - image: grpc-demo-server
+        context: ./server/
+        sync:
+          infer:
+          - 'src/**'
+      - image: grpc-demo-client
+        context: ./client/
+        sync:
+          infer:
+          - 'src/**'
   deploy:
     kubeContext: docker-desktop
     kustomize:

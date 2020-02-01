@@ -9,6 +9,7 @@ const SVC_PROTO_PATH = path.join(__dirname, './proto/geoservice.proto');
 const { geoservice } = _loadProto(SVC_PROTO_PATH);
 
 const PORT = process.env.PORT || 3000;
+const GEOSVC_IP = process.env.GRPC_SERVER || 'localhost:50051';
 
 const logger = pino({
   name,
@@ -32,7 +33,7 @@ function _loadProto(path) {
   return grpc.loadPackageDefinition(packageDefinition);
 }
 
-const client = new geoservice.GeoService('localhost:50051', grpc.credentials.createInsecure());
+const client = new geoservice.GeoService(GEOSVC_IP, grpc.credentials.createInsecure());
 
 const getDistance = ({ lat1, lng1, lat2, lng2 }) => new Promise((resolve, reject) => {
   const request = {
