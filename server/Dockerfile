@@ -19,6 +19,6 @@ WORKDIR /www
 COPY --from=dependencies /www/node_modules ./node_modules
 COPY ./src .
 
-EXPOSE 50051
+EXPOSE 50001
 
 CMD ["yarn", "start"]

@@ -4,5 +4,5 @@ metadata:
   name: server
 spec:
   ports:
-    - port: 50051
-      targetPort: 50051
+    - port: 50001
+      targetPort: 50001
