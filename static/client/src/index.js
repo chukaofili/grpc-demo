@@ -1,13 +1,11 @@
 const { name, version } = require('./package.json');
 const environment = process.env.NODE_ENV || 'development';
-const path = require('path');
+const messages = require('./proto/geoservice_pb');
+const services = require('./proto/geoservice_grpc_pb');
+const health_messages = require('./proto/health_pb');
+const health_services = require('./proto/health_grpc_pb');
 const grpc = require('grpc');
-const protoLoader = require('@grpc/proto-loader');
 const pino = require('pino');
-
-const SVC_PROTO_PATH = path.join(__dirname, './proto/geoservice.proto');
-const { geoservice } = _loadProto(SVC_PROTO_PATH);
-
 const PORT = process.env.PORT || 3000;
 const GEOSVC_IP = process.env.GRPC_SERVER || 'localhost:50001';
 
@@ -19,37 +17,24 @@ const logger = pino({
 }).child({ version, environment });
 
 
-/**
- * Helper function that loads a protobuf file.
- */
-function _loadProto(path) {
-  const packageDefinition = protoLoader.loadSync(path, {
-    keepCase: true,
-    longs: String,
-    enums: String,
-    defaults: true,
-    oneofs: true
-  });
-  return grpc.loadPackageDefinition(packageDefinition);
-}
-
-const client = new geoservice.GeoService(GEOSVC_IP, grpc.credentials.createInsecure());
+const client = new services.GeoServiceClient(GEOSVC_IP, grpc.credentials.createInsecure());
 
 const getDistance = ({ lat1, lng1, lat2, lng2 }) => new Promise((resolve, reject) => {
-  const request = {
-    origin: {
-      lat: parseFloat(lat1),
-      lng: parseFloat(lng1)
-    },
-    destination: {
-      lat: parseFloat(lat2),
-      lng: parseFloat(lng2)
-    },
-  }
+  const origin = new messages.Point();
+  origin.setLat(parseFloat(lat1));
+  origin.setLng(parseFloat(lng1));
 
-  client.distanceBetween(request, (error, distance) => {
+  const destination = new messages.Point();
+  destination.setLat(parseFloat(lat2));
+  destination.setLng(parseFloat(lng2));
+
+  const request = new messages.Points();
+  request.setOrigin(origin);
+  request.setDestination(destination);
+
+  client.distanceBetween(request, (error, response) => {
     if (error != null) reject(error);
-    resolve(distance);
+    resolve(response.getDistance());
   });
 });
 
@@ -62,7 +47,7 @@ app.get('/', async (req, res) => {
   const { lng1, lat1, lng2, lat2 } = req.query;
   if (!lng1 || !lat1 || !lng2 || !lat2) return res.send('Invalid query: eg format; /?lng1=10.111&lat1=10.111&lng2=10.111&lat2=10.111');
   try {
-    const { distance } = await getDistance({ lat1, lng1, lat2, lng2 });
+    const distance = await getDistance({ lat1, lng1, lat2, lng2 });
     return res.status(200).send({ distance, unit: 'meters' })
   } catch (error) {
     logger.error(error.stack);
