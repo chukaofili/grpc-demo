@@ -3,20 +3,19 @@ const environment = process.env.NODE_ENV || 'development';
 const messages = require('./proto/geoservice_pb');
 const services = require('./proto/geoservice_grpc_pb');
 const grpc = require('grpc');
-const pino = require('pino');
 const PORT = process.env.PORT || 3000;
 const GEOSVC_IP = process.env.GRPC_SERVER || 'localhost:50001';
-
-const logger = pino({
+const logger = require('pino')({
   name,
   messageKey: 'message',
   changeLevelName: 'severity',
   useLevelLabels: true
 }).child({ version, environment });
-
+const app = require('express')();
+const pino = require('express-pino-logger')({ logger });
+app.use(pino);
 
 const client = new services.GeoServiceClient(GEOSVC_IP, grpc.credentials.createInsecure());
-
 const getDistance = ({ lat1, lng1, lat2, lng2 }) => new Promise((resolve, reject) => {
   const origin = new messages.Point();
   origin.setLat(parseFloat(lat1));
@@ -36,10 +35,7 @@ const getDistance = ({ lat1, lng1, lat2, lng2 }) => new Promise((resolve, reject
   });
 });
 
-const app = require('express')();
-const expressPino = require('express-pino-logger')({ logger });
 
-app.use(expressPino)
 app.get('/status', (req, res) => res.status(200).json({ name, version, environment }));
 app.get('/', async (req, res) => {
   const { lng1, lat1, lng2, lat2 } = req.query;
@@ -53,7 +49,7 @@ app.get('/', async (req, res) => {
   }
 });
 
-app.use(function (err, req, res, next) {
+app.use((err, req, res, next) => {
   logger.error(err.stack)
   return res.status(500).send('Something broke!')
 })

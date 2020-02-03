@@ -22,7 +22,7 @@ const logger = pino({
  */
 function check(call, callback) {
   const reply = new health_messages.HealthCheckResponse();
-  reply.setStatus('SERVING');
+  reply.setStatus(proto.grpc.health.v1.HealthCheckResponse.ServingStatus.SERVING);
   callback(null, reply);
 }
 

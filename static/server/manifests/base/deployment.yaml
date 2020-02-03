@@ -18,9 +18,11 @@ spec:
         readinessProbe:
           exec:
             command: ["/bin/grpc_health_probe", "-addr=:50001"]
+          initialDelaySeconds: 2
         livenessProbe:
           exec:
             command: ["/bin/grpc_health_probe", "-addr=:50001"]
+          initialDelaySeconds: 4
         resources:
           requests:
             cpu: 100m

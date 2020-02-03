@@ -15,3 +15,24 @@ spec:
         envFrom:
         - configMapRef:
             name: configmap
+        readinessProbe:
+          httpGet:
+            path: /status
+            port: 3000
+            scheme: HTTP
+          initialDelaySeconds: 2
+          timeoutSeconds: 5
+        livenessProbe:
+          httpGet:
+            path: /status
+            port: 3000
+            scheme: HTTP
+          initialDelaySeconds: 2
+          timeoutSeconds: 5
+        resources:
+          requests:
+            cpu: 100m
+            memory: 64Mi
+          limits:
+            cpu: 200m
+            memory: 128Mi
