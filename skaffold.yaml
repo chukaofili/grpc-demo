@@ -7,20 +7,20 @@ build:
     gitCommit: {}
   artifacts:
   - image: grpc-demo-server
-    context: ./server/
+    context: ./static/server/
   - image: grpc-demo-client
-    context: ./client/
+    context: ./static/client/
 profiles:
 - name: local
   build:
     artifacts:
       - image: grpc-demo-server
-        context: ./server/
+        context: ./static/server/
         sync:
           infer:
           - 'src/**'
       - image: grpc-demo-client
-        context: ./client/
+        context: ./static/client/
         sync:
           infer:
           - 'src/**'
@@ -28,5 +28,24 @@ profiles:
     kubeContext: docker-desktop
     kustomize:
       paths: 
-        - ./server/manifests/overlays/local
-        - ./client/manifests/overlays/local
+        - ./static/server/manifests/overlays/local
+        - ./static/client/manifests/overlays/local
+- name: local-dynamic
+  build:
+    artifacts:
+      - image: grpc-demo-server
+        context: ./dynamic/server/
+        sync:
+          infer:
+          - 'src/**'
+      - image: grpc-demo-client
+        context: ./dynamic/client/
+        sync:
+          infer:
+          - 'src/**'
+  deploy:
+    kubeContext: docker-desktop
+    kustomize:
+      paths: 
+        - ./dynamic/server/manifests/overlays/local
+        - ./dynamic/client/manifests/overlays/local

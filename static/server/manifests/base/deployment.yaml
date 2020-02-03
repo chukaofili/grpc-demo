@@ -1,0 +1,30 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: server
+spec:
+  replicas: 1
+  template:
+    spec:
+      containers:
+      - name: grpc-demo-server
+        image: grpc-demo-server
+        imagePullPolicy: Always
+        ports:
+        - containerPort: 50001
+        envFrom:
+        - configMapRef:
+            name: configmap
+        readinessProbe:
+          exec:
+            command: ["/bin/grpc_health_probe", "-addr=:50001"]
+        livenessProbe:
+          exec:
+            command: ["/bin/grpc_health_probe", "-addr=:50001"]
+        resources:
+          requests:
+            cpu: 100m
+            memory: 64Mi
+          limits:
+            cpu: 200m
+            memory: 128Mi
