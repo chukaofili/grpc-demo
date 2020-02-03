@@ -9,6 +9,7 @@ configMapGenerator:
 namePrefix: grpc-demo-
 commonLabels:
   app: grpc-client
+  type: static
 resources:
 - deployment.yaml
 - service.yaml

@@ -7,7 +7,7 @@ const protoLoader = require('@grpc/proto-loader');
 const { getDistance } = require('geolib');
 
 const SVC_PROTO_PATH = path.join(__dirname, './proto/geoservice.proto');
-const HEALTH_PROTO_PATH = path.join(__dirname, './proto/health/v1/health.proto');
+const HEALTH_PROTO_PATH = path.join(__dirname, './proto/health.proto');
 
 const PORT = process.env.PORT || 50001;
 
