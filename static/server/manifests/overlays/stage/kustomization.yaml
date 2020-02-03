@@ -8,3 +8,5 @@ configMapGenerator:
   name: configmap
   envs: 
   - config.env
+resources:
+- ingress.yaml

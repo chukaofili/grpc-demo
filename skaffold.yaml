@@ -49,3 +49,16 @@ profiles:
       paths: 
         - ./dynamic/server/manifests/overlays/local
         - ./dynamic/client/manifests/overlays/local
+- name: staging
+  build:
+    artifacts:
+      - image: gcr.io/ms-clients-2018/grpc-demo-server
+        context: ./static/server/
+      - image: gcr.io/ms-clients-2018/grpc-demo-client
+        context: ./static/client/
+  deploy:
+    kubeContext: gke_ms-clients-2018_europe-west1-d_goliath
+    kustomize:
+      paths: 
+        - ./static/server/manifests/overlays/stage
+        - ./static/client/manifests/overlays/stage
