@@ -13,7 +13,7 @@
   "dependencies": {
     "geolib": "^3.2.1",
     "google-protobuf": "^3.11.2",
-    "grpc": "^1.24.2",
+    "grpc": "^1.24.9",
     "pino": "^5.16.0"
   },
   "license": "Apache-2.0"
