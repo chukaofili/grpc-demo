@@ -12,7 +12,7 @@
   },
   "dependencies": {
     "@grpc/proto-loader": "^0.5.3",
-    "express": "^4.17.1",
+    "express": "^4.17.3",
     "express-pino-logger": "^4.0.0",
     "grpc": "^1.24.2",
     "grpc-promise": "^1.4.0",
