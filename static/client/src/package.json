@@ -11,7 +11,7 @@
     "url": ""
   },
   "dependencies": {
-    "express": "^4.17.1",
+    "express": "^4.17.3",
     "express-pino-logger": "^4.0.0",
     "google-protobuf": "^3.11.2",
     "grpc": "^1.24.2",
